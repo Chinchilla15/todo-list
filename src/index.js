@@ -1,18 +1,31 @@
-import { createProject, createTodo, projectList } from "./modules/logic";
+import { Create, Edit, Delete, projectList } from "./modules/logic";
 
-const schoolProject = createProject("School");
-const carProject = createProject("Car")
+// Create factory manager
+const createManager = Create();
+const editManager = Edit();
+const deleteManager = Delete();
 
-const newTodo = createTodo("Do Homework", "School", "05-01-24", "low", "math homework");
-const newTodo1 = createTodo("Study for Exam", "School", "05-01-25", "medium", "history exam");
-const schoolTodo = createTodo("Test","School","05-01-25", "important", "science exam")
+// Create tasks and projects
+const task1 = createManager.createTodo("Do Homework", "School", "05-01-24", "low", "math homework");
+const task2 = createManager.createTodo("Study for Exam", "School", "05-01-25", "medium", "history exam");
 
-const hometodo = createTodo("Do Homework", "Home", "05-01-24", "low", "math homework")
+const workProject = createManager.createProject("Work");
+const task3 = createManager.createTodo("Prepare Presentation", "Work", "05-02-01", "high", "important meeting");
 
-const code = createTodo("Create a todo app", "Programming", "15-01-24", "Important", "Project from TOP")
+console.log("Initial project list:");
+console.log(projectList);
 
-const none = createTodo("No project", "", "Sometime", "meh", "test")
+// Edit task and project
+const updatedTask2 = editManager.editTodo(task2, { priority: "high", info: "more details" });
+console.log("Task after editing:");
+console.log(updatedTask2);
 
-const carTodo = createTodo("Repair car", "Car", "08-02-24", "High", "Use new oil")
+const updatedWorkProject = editManager.editProject(workProject, { description: "Updated project description" });
+console.log("Project after editing:");
+console.log(updatedWorkProject);
 
-console.log(projectList)
+deleteManager.deleteProject(workProject);
+deleteManager.deleteTodo(task1)
+
+console.log("Project list after deleting task and project:");
+console.log( projectList);
