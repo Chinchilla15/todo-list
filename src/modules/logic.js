@@ -1,16 +1,25 @@
 import ToDo from "./todos";
 import Project from "./projects";
 
+const projectList = [];
+
 function createTodo(title, project, dueDate, priority, info){
-    return new ToDo(title, project, dueDate, priority, info);
+    let existingProject = projectList.find(p => p.name === project);
+
+    if(!existingProject){
+        existingProject = createProject(project);
+    }
+
+    const newTodo = new ToDo(title, project, dueDate, priority, info);
+    existingProject.addTodo(newTodo);
+
+    return newTodo;
 }
 
 function createProject(name){
-    return new Project(name)
+    const newProject =  new Project(name)
+    projectList.push(newProject);
+    return newProject;
 }
 
-function addTodoToProject(todo, project){
-    project.addTodo(todo)
-}
-
-export {createTodo, createProject, addTodoToProject}
+export {createTodo, createProject, projectList}
