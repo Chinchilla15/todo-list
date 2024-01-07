@@ -32,7 +32,7 @@ body{
 header{
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding-left: 2%;
     grid-area: 1/1/2/3;
     background-color: var(--main-color);
 }
@@ -40,7 +40,7 @@ header{
 header > h1{
     font-family: 'Lilita One', sans-serif;
     margin: 0;
-    font-size: 40px;
+    font-size: 36px;
     color: var(--white-color);
 }
 
@@ -80,7 +80,7 @@ button{
 
 button:hover{
     box-shadow: inset 150px 0 0 0 var(--secondary-color);
-    color: white;
+    color: var(--white-color);
 }
 
 .home-box{
@@ -98,6 +98,10 @@ button:hover{
 
 .projects-box{
     margin-bottom: 16px;
+}
+
+ul{
+    padding-left: 20px;
 }
 
 li{
@@ -124,4 +128,15 @@ li::before {
 li:hover::before {
 transform-origin: left;
 transform: scaleX(1);
+}
+
+.title-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-title{
+    color: var(--blue-color);
+    font-size: 40px;
 }
