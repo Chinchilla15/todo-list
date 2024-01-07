@@ -49,8 +49,12 @@ aside{
     background-color:var(--accent-color);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     gap: 15px;
+}
+
+aside > div{
+    margin-left: 25%;
 }
 
 main{
@@ -66,8 +70,58 @@ footer{
 button{
     border-style: none;
     background-color: var(--accent-color);
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 0 var(--secondary-color);
+    margin: 0 -.25rem;
+    padding: 0 .25rem;
+    transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
 }
 
 button:hover{
-    background-color: #019FA7;
+    box-shadow: inset 150px 0 0 0 var(--secondary-color);
+    color: white;
+}
+
+.home-box{
+    margin-top: 15%;
+    margin-bottom: 20px;
+}
+
+.tabs-box{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.projects-box{
+    margin-bottom: 16px;
+}
+
+li{
+    cursor: pointer;
+    padding: 4px;
+    list-style-type:none;
+    position: relative;
+}
+
+li::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    border-radius: 4px;
+    background-color: var(--secondary-color);
+    bottom: 0;
+    left: 0;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .3s ease-in-out;
+}
+
+li:hover::before {
+transform-origin: left;
+transform: scaleX(1);
 }

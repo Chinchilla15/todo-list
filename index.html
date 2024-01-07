@@ -8,24 +8,47 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300;400;500;700&family=Lilita+One&display=swap" rel="stylesheet">
     <title>Todo List</title>
-    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/aa73f4cdd9.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="content">
-        <header><h1>TODO-LIST-O</h1></header>
+        <header>
+          <h1>TODO-LIST-O</h1>
+        </header>
         <aside>
           <div class="home-box">
-            <button>Home</button>
+            <button>
+              <i class="fa-solid fa-house"></i>
+              Home
+            </button>
           </div>
           <div class="tabs-box">
-            <button>Today</button>
-            <button>Important</button>
+            <button>
+              <i class="fa-solid fa-calendar-day"></i>
+              Today
+            </button>
+            <button>
+              <i class="fa-solid fa-circle-exclamation"></i>
+              Important
+            </button>
           </div>
           <div class="projects-box">
-            <button>Projects</button>
+            <button>
+              <i class="fa-solid fa-clipboard-list"></i>
+              Projects
+            </button>
+            <div class="projects-list">
+              <ul>
+                <li><i class="fa-solid fa-check"></i> Project 1</li>
+                <li><i class="fa-solid fa-check"></i> Project 2</li>
+              </ul>
+            </div>
           </div>
           <div class="notes-box">
-            <button>Notes</button>
+            <button>
+              <i class="fa-solid fa-note-sticky"></i>
+              Notes
+            </button>
           </div>
         </aside>
         <main></main>
