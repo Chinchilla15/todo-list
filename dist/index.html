@@ -17,7 +17,7 @@
         </header>
         <aside>
           <div class="home-box">
-            <button class="tabs-buttons" id="homeButton">
+            <button class="tabs-buttons" id="home-button">
               <i class="fa-solid fa-house"></i>
               Home
             </button>
@@ -57,9 +57,39 @@
             <button id="add-button"><i class="fa-solid fa-plus"></i></button>
           </div>
           <dialog id="formDialog">
+            <h2>Add new...</h2>
+            <div class="buttons-box">
+              <button class="dialog-button" id="dialog-task">Task</button>
+              <button class="dialog-button" id="dialog-project">Project</button>
+              <button class="dialog-button" id="dialog-note">Note</button>
+            </div>
             <form id="add-form">
-                <h2>Add new...</h2>
-
+              <div class="form-container">
+                <fieldset>
+                  <label for="title">Title </label>
+                  <input type="text" id="title" name="title" placeholder="E.g. Finish To Do Project" required>
+                </fieldset>
+                <fieldset>
+                  <label for="priority">Priority</label>
+                  <select name="priority" id="priority" required>
+                    <option value="low">Low</option>
+                    <option value="mid">Mid</option>
+                    <option value="high">High</option>
+                  </select>
+                </fieldset>
+                <fieldset>
+                  <label for="description">Description</label>
+                  <input type="text" id="description" name="description" placeholder="Optional">
+                </fieldset>
+                <fieldset>
+                  <label for="dueDate">Due Date</label>
+                  <input type="date" name="date" id="date" required>
+                </fieldset>
+              </div>
+              <div class="form-buttons">
+                <button id="submit-button" type="submit"><i class="fa-solid fa-check"></i></i></button>
+                <button id="cancel-button" value="cancel" formmethod="dialog" ><i class="fa-solid fa-xmark"></i></i></button>
+              </div>
             </form>
         </dialog>
         </main>
