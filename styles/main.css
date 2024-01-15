@@ -42,6 +42,7 @@ header > h1{
     margin: 0;
     font-size: 36px;
     color: var(--white-color);
+    cursor: default;
 }
 
 aside{
@@ -58,6 +59,8 @@ aside > div{
 }
 
 main{
+    display: flex;
+    justify-content: center;
     grid-area: 2/2/3/3;
     background-color: var(--white-color);
 }
@@ -67,7 +70,7 @@ footer{
     background-color: var(--main-color);
 }
 
-button{
+.tabs-buttons{
     border-style: none;
     background-color: var(--accent-color);
     font-size: 24px;
@@ -78,7 +81,7 @@ button{
     transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
 }
 
-button:hover{
+.tabs-buttons:hover{
     box-shadow: inset 150px 0 0 0 var(--secondary-color);
     color: var(--white-color);
 }
@@ -133,10 +136,39 @@ transform: scaleX(1);
 .title-div{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--accent-color);
+    width: 75%;
+    height: 80px;
 }
 
 .tab-title{
     color: var(--blue-color);
     font-size: 40px;
+}
+
+#add-button{
+    cursor: pointer;
+    border-radius: 25px;
+    border-style: none;
+    background-color: var(--accent-color);
+    height: 40px;
+    width: 40px;
+    font-size: 20px;
+    transition: transform .2s;
+}
+
+#add-button:hover{
+    transform: scale(1.15);
+    box-shadow:
+    2px 4px 6px var(--black-color),
+    inset 0 0 0 var(--black-color);
+}
+
+#formDialog{
+    border: none;
+    width: clamp(200px, 50%, 80%);
+    height: clamp(400px, 450px, 50%);
+    border-radius: 10px;
+    box-shadow: 3px 4px 10px 0px rgba(0, 0, 0, 0.5);
 }
