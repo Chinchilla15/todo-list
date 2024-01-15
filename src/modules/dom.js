@@ -15,4 +15,22 @@ export default function Dom(){
         console.log('Home button clicked');
         //mainContainer.innerHTML = "";
     });
+
+    /**
+     * Dialog Funcionality
+     */
+    const formDialog = document.getElementById("formDialog")
+    const showButton = document.getElementById("add-button")
+    const closeButton = document.getElementById("closeButton")
+
+    showButton.addEventListener("click",() =>{
+        formDialog.showModal();
+        document.body.style.filter = 'blur(4px)'
+    })
+
+    closeButton.addEventListener("click",(e)=>{
+        e.preventDefault();
+        document.getElementById('add-form').reset();
+        formDialog.close();
+    })
 };
