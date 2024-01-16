@@ -60,7 +60,8 @@ aside > div{
 
 main{
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     grid-area: 2/2/3/3;
     background-color: var(--white-color);
 }
@@ -107,14 +108,14 @@ ul{
     padding-left: 20px;
 }
 
-li{
+.p-list-element{
     cursor: pointer;
     padding: 4px;
     list-style-type:none;
     position: relative;
 }
 
-li::before {
+.p-list-element::before {
     content: '';
     position: absolute;
     width: 100%;
@@ -140,6 +141,7 @@ transform: scaleX(1);
     border-bottom: 1px solid var(--accent-color);
     width: 75%;
     height: 80px;
+    margin-bottom: 16px;
 }
 
 .tab-title{
@@ -290,3 +292,35 @@ input:focus{
     2px 4px 6px var(--black-color),
     inset 0 0 0 var(--black-color);
  }
+
+ #task-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+ }
+
+ .task-box{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid red;
+    width: 75%;
+    height: 36px;
+    border-radius: 8px;
+    padding: 0 10px;
+    margin-bottom: 12px;
+ }
+
+.task-box i {
+    cursor: pointer;
+    margin-right: 2%; 
+  }
+ 
+  .task-name {
+    flex-grow: 1; 
+  }
+  
+  .task-date {
+    margin-right: 5%; 
+  }
