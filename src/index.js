@@ -1,3 +1,4 @@
+import Dom from "./modules/dom";
 import { Create, Edit, Delete, projectList } from "./modules/logic";
 
 // Create factory manager
@@ -29,3 +30,5 @@ deleteManager.deleteTodo(task1)
 
 console.log("Project list after deleting task and project:");
 console.log( projectList);
+
+Dom();
