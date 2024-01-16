@@ -147,6 +147,7 @@ transform: scaleX(1);
 .tab-title{
     color: var(--blue-color);
     font-size: 40px;
+    cursor: default;
 }
 
 #add-button{
@@ -200,8 +201,14 @@ transform: scaleX(1);
     transition: transform .3s;
 }
 
-.dialog-button:hover,
-.dialog-button:focus{
+.active-button{
+    box-shadow: 0 0.5em 0.5em -0.4em var(--black-color);
+    transform: translateY(-0.25em);
+    background-color: var(--secondary-color);
+    outline: none;
+}
+
+.dialog-button:hover{
     box-shadow: 0 0.5em 0.5em -0.4em var(--black-color);
     transform: translateY(-0.25em);
     background-color: var(--secondary-color);
@@ -221,11 +228,10 @@ fieldset{
     border-style: none;
 }
 
-#add-form{
+#add-task-form{
     height: 70%;
 }
 
-#add-form,
 fieldset{
     display: flex;
     flex-direction: column;
@@ -255,18 +261,18 @@ input:focus{
     transform: scale(1.02);
     box-shadow: 3px 4px 10px 0px rgba(141, 138, 138, 0.5);
  }
- 
- select{
-    outline: none;
- }
 
- .form-buttons{
+select{
+    outline: none;
+}
+
+.form-buttons{
     display: flex;
     justify-content: center;
     gap: 42px;
- }
+}
 
- .form-buttons > button{
+.form-buttons > button{
     border-style: none;
     background-color: transparent;
     cursor: pointer;
@@ -276,51 +282,77 @@ input:focus{
     border-radius: 25px;
     color: var(--white-color);
     transition: transform .2s;
- }
+}
 
- #submit-button{
+#submit-button{
     background-color: green;
- }
+}
 
- #cancel-button{
+#cancel-button{
     background-color: var(--red-color);
- }
+}
 
- .form-buttons > button:hover{
+.form-buttons > button:hover{
     transform: scale(1.15);
     box-shadow:
     2px 4px 6px var(--black-color),
     inset 0 0 0 var(--black-color);
- }
+}
 
- #task-container{
+#task-container{
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
- }
+}
 
- .task-box{
+.task-box{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid red;
+    border: 1px solid var(--accent-color);
     width: 75%;
     height: 36px;
     border-radius: 8px;
     padding: 0 10px;
     margin-bottom: 12px;
- }
+}
 
 .task-box i {
     cursor: pointer;
     margin-right: 2%; 
-  }
- 
-  .task-name {
-    flex-grow: 1; 
-  }
-  
-  .task-date {
+}
+
+.task-box[data-priority="low"]{
+    background-color: var(--low-color);
+}
+
+.task-box[data-priority="low"]:hover{
+    background-color: #bfebb2 ;
+}
+
+.task-box[data-priority="mid"]{
+    background-color: var(--mid-color);
+}
+
+.task-box[data-priority="mid"]:hover{
+    background-color: #ffed9c;
+}
+
+.task-box[data-priority="high"]{
+    background-color: var(--high-color);
+}
+
+.task-box[data-priority="high"]:hover{
+    background-color: #ffb3b3;
+}
+
+.task-name {
+    flex-grow: 1;
+    cursor: default;
+}
+
+.task-date {
     margin-right: 5%; 
-  }
+    cursor: default;
+}
