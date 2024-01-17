@@ -71,7 +71,9 @@ footer{
     background-color: var(--main-color);
 }
 
-.tabs-buttons{
+#home-button,
+#today-button,
+#important-button{
     border-style: none;
     background-color: var(--accent-color);
     font-size: 24px;
@@ -82,9 +84,19 @@ footer{
     transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
 }
 
-.tabs-buttons:hover{
+#home-button:hover,
+#today-button:hover,
+#important-button:hover{
     box-shadow: inset 150px 0 0 0 var(--secondary-color);
     color: var(--white-color);
+}
+
+#projects-button{
+    border-style: none;
+    background-color: var(--accent-color);
+    font-size: 24px;
+    margin: 0 -.25rem;
+    padding: 0 .25rem;
 }
 
 .home-box{
