@@ -15,6 +15,7 @@ export default function Dom(){
     const projectsButton = document.getElementById('projects-button');
     const tabTitle = document.querySelector('.tab-title');
     const taskContainer = document.getElementById('task-container');
+    const projectsContainer = document.querySelector('.projects-list')
     const submitButton = document.getElementById('submit-button')
 
     const dialogTaskButton = document.getElementById('dialog-task');
@@ -74,6 +75,20 @@ export default function Dom(){
     taskContainer.appendChild(taskElement);
     };
 
+    /**Add projects function */
+
+    function addProjectsToList(name){
+        const newProject =create.createProject(name);
+
+        const projectElement = document.createElement('li');
+        projectElement.classList.add('p-list-element');
+        projectElement.innerHTML = `
+        <i class="fa-solid fa-clipboard"></i> 
+        ${newProject.name}`
+
+        projectsContainer.appendChild(projectElement);
+    }
+
      
   function showTasks() {
     taskContainer.innerHTML = ""; 
@@ -106,6 +121,10 @@ export default function Dom(){
     button.classList.add(activeButtonClass);
     };
 
+    function capitalizeFirstLetter(name) {
+        return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    }
+
     // Task Dialog
     dialogTaskButton.addEventListener('click',()=>{
         setActiveButton(dialogTaskButton);
@@ -118,7 +137,8 @@ export default function Dom(){
    taskForm.addEventListener("submit", function(e) {
      e.preventDefault();
  
-     const title = document.getElementById("title").value;
+     const titleInput = document.getElementById("title");
+     const title = capitalizeFirstLetter(titleInput.value)
      const priority = document.getElementById("priority").value;
      const description = document.getElementById("description").value;
      const dueDate = document.getElementById("date").value;
@@ -143,7 +163,12 @@ export default function Dom(){
 
    projectForm.addEventListener("submit",function(e){
         e.preventDefault();
-    
+
+        const nameInput = document.getElementById('project-name');
+        const projectName = capitalizeFirstLetter(nameInput.value);
+
+        addProjectsToList(projectName);
+
         projectForm.reset();
         formDialog.close();
         document.body.style.filter = 'none'
