@@ -1,5 +1,4 @@
-import Project from "./projects"; //Remove
-import ToDo from "./todos"; //Remove
+import { format, isToday,} from 'date-fns';
 import { Create, Edit, Delete, projectList } from "./logic";
 
 const create = Create();
@@ -25,11 +24,37 @@ export default function Dom(){
     const taskForm = document.getElementById('add-task-form');
     const projectForm = document.getElementById('add-project-form');
 
-    homeButton.addEventListener('click',()=>{
-        taskContainer.innerHTML = ''
-        showTasks();
-    });
+    function renderHomeTab(){
+        homeButton.addEventListener('click',()=>{
+            tabTitle.innerHTML = 'Home'
+            taskContainer.innerHTML = ''
+            showButton.style.display = "block"
+            showTasks();
+        });
+    }
     
+    function renderTodayTab(){
+        todayButton.addEventListener('click',()=>{
+            showButton.style.display = "none";
+            taskContainer.innerHTML = ''
+            tabTitle.innerHTML = 'Today'
+
+           showTasks({
+            dueDate: format(new Date(), 'MM/dd/yyyy')
+           })
+        })
+    }
+
+    function renderImportantTab(){
+        importantButton.addEventListener('click',()=>{
+            showButton.style.display = "none";
+            taskContainer.innerHTML = '';
+            tabTitle.innerHTML = 'Important'
+            showTasks({
+                priority: 'high'
+            })
+        })
+    }
 
     /**
      * Dialog Funcionality
@@ -90,23 +115,29 @@ export default function Dom(){
     }
 
      
-  function showTasks() {
-    taskContainer.innerHTML = ""; 
+  function showTasks(filters = {}) {
 
     projectList.forEach(project => {
       project.projectToDos.forEach(task => {
-        const taskElement = document.createElement('li');
-        taskElement.classList.add('task-box');
-        taskElement.setAttribute('data-priority', task.priority);
-        taskElement.innerHTML = `
-          <i class="fa-regular fa-square fa-xl"></i>
-          <p class="task-name">${task.title}</p>
-          <p class="task-date">${task.dueDate}</p>
-          <i class="fa-solid fa-pen-to-square fa-lg"></i>
-          <i class="fa-solid fa-trash fa-lg"></i>
-          <i class="fa-solid fa-circle-info fa-lg"></i>`;
 
-        taskContainer.appendChild(taskElement);
+        const isHighPriority = filters.priority === 'high' && task.priority === 'high'
+        const istaskToday = isToday(task.dueDate);
+
+        if(Object.keys(filters).length === 0 || isHighPriority || (istaskToday && filters.dueDate === task.dueDate)){
+            const taskElement = document.createElement('li');
+            taskElement.classList.add('task-box');
+            taskElement.setAttribute('data-priority', task.priority);
+            taskElement.innerHTML = `
+              <i class="fa-regular fa-square fa-xl"></i>
+              <p class="task-name">${task.title}</p>
+              <p class="task-date">${task.dueDate}</p>
+              <i class="fa-solid fa-pen-to-square fa-lg"></i>
+              <i class="fa-solid fa-trash fa-lg"></i>
+              <i class="fa-solid fa-circle-info fa-lg"></i>`;
+    
+            taskContainer.appendChild(taskElement);
+        }
+
       });
     });
   };
@@ -175,5 +206,5 @@ export default function Dom(){
    })
 
    showTasks();
-
+   return {showTasks,renderHomeTab, renderTodayTab, renderImportantTab}
 };
