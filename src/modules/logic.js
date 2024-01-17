@@ -1,5 +1,6 @@
 import ToDo from "./todos";
 import Project from "./projects";
+import {format} from 'date-fns'
 
 const projectList = [];
 
@@ -12,7 +13,7 @@ function Create(){
             existingProject = createProject(project);
         };
 
-        const newTodo = new ToDo(title, project, dueDate, priority, info);
+        const newTodo = new ToDo(title, project, format(new Date(dueDate),'MM/dd/yyyy'), priority, info);
         existingProject.addTodo(newTodo);
 
         return newTodo;
