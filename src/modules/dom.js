@@ -4,6 +4,7 @@ import { Create, Edit, Delete, projectList } from "./logic";
 const create = Create();
 const edit = Edit();
 const remove = Delete();
+console.log(projectList)
 
 export default function Dom(){
 
@@ -11,7 +12,6 @@ export default function Dom(){
     const homeButton = document.getElementById('home-button');
     const todayButton = document.getElementById('today-button');
     const importantButton = document.getElementById('important-button');
-    const projectsButton = document.getElementById('projects-button');
     const tabTitle = document.querySelector('.tab-title');
     const taskContainer = document.getElementById('task-container');
     const projectsContainer = document.querySelector('.projects-list')
@@ -142,6 +142,18 @@ export default function Dom(){
     });
   };
 
+  function showProjects(){
+    projectList.forEach(project => {
+        const projectElement = document.createElement('li');
+        projectElement.classList.add('p-list-element');
+        projectElement.innerHTML = `
+            <i class="fa-solid fa-clipboard"></i> 
+            ${project.name}`;
+
+        projectsContainer.appendChild(projectElement);
+    });
+  }
+
     //Active button functionality
     const activeButtonClass = "active-button";
 
@@ -205,6 +217,6 @@ export default function Dom(){
         document.body.style.filter = 'none'
    })
 
-   showTasks();
-   return {showTasks,renderHomeTab, renderTodayTab, renderImportantTab}
+
+   return {showTasks, showProjects,renderHomeTab, renderTodayTab, renderImportantTab}
 };
