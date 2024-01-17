@@ -215,7 +215,7 @@ transform: scaleX(1);
     outline: none;
 }
 
-.form-container{
+.task-form-container{
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 0.4fr 0.4fr;
@@ -224,11 +224,22 @@ transform: scaleX(1);
     height: 100%;
 }
 
+.project-form-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
 fieldset{
     border-style: none;
 }
 
 #add-task-form{
+    height: 70%;
+}
+
+#add-project-form{
     height: 70%;
 }
 

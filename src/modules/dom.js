@@ -12,15 +12,19 @@ export default function Dom(){
     const homeButton = document.getElementById('home-button');
     const todayButton = document.getElementById('today-button');
     const importantButton = document.getElementById('important-button');
-    const projectButton = document.getElementById('projects-button');
+    const projectsButton = document.getElementById('projects-button');
     const tabTitle = document.querySelector('.tab-title');
     const taskContainer = document.getElementById('task-container');
+    const submitButton = document.getElementById('submit-button')
 
     const dialogTaskButton = document.getElementById('dialog-task');
     const dialogProjectButton = document.getElementById('dialog-project');
-    
+
+    //Forms
+    const taskForm = document.getElementById('add-task-form');
+    const projectForm = document.getElementById('add-project-form');
+
     homeButton.addEventListener('click',()=>{
-        console.log('Home button clicked'); //Remove
         taskContainer.innerHTML = ''
         showTasks();
     });
@@ -37,11 +41,15 @@ export default function Dom(){
         formDialog.showModal();
         setActiveButton(dialogTaskButton);
         document.body.style.filter = 'blur(4px)';
+        taskForm.style.display = "block"
+        projectForm.style.display = "none"
+        submitButton.setAttribute('form','add-task-form')
     })
 
     cancelButton.addEventListener("click",(e)=>{
         e.preventDefault();
-        document.getElementById('add-task-form').reset();
+        taskForm.reset();
+        projectForm.reset();
         formDialog.close();
         document.body.style.filter = 'none';
     })
@@ -88,40 +96,58 @@ export default function Dom(){
     });
   };
 
-  //ADD TASK BUTTON FUNCTIONALITY
+    //Active button functionality
+    const activeButtonClass = "active-button";
+
+    function setActiveButton(button) {
+    document.querySelectorAll('.dialog-button').forEach((btn) => {
+    btn.classList.remove(activeButtonClass);
+    });
+    button.classList.add(activeButtonClass);
+    };
+
+    // Task Dialog
+    dialogTaskButton.addEventListener('click',()=>{
+        setActiveButton(dialogTaskButton);
+        taskForm.style.display = "block";
+        projectForm.style.display = "none"
+        submitButton.setAttribute('form','add-task-form')
+    })
 
    // Event listener for the task form submission
-   document.getElementById("add-task-form").addEventListener("submit", function(e) {
+   taskForm.addEventListener("submit", function(e) {
      e.preventDefault();
  
      const title = document.getElementById("title").value;
      const priority = document.getElementById("priority").value;
      const description = document.getElementById("description").value;
      const dueDate = document.getElementById("date").value;
-    const project = undefined;    
+     const project = undefined;    
  
      addTaskToHome(title, project, dueDate, priority, description);
  
-     document.getElementById("add-task-form").reset();
+     taskForm.reset();
      formDialog.close();
      document.body.style.filter = 'none';
    });
 
-   //Active button functionality
-   const activeButtonClass = "active-button";
-
-   function setActiveButton(button) {
-    document.querySelectorAll('.dialog-button').forEach((btn) => {
-      btn.classList.remove(activeButtonClass);
-    });
-    button.classList.add(activeButtonClass);
-   };
 
    //Project dialog functionality here
    dialogProjectButton.addEventListener('click',(e)=>{
-    setActiveButton(dialogProjectButton);
+        setActiveButton(dialogProjectButton);
+        taskForm.style.display = "none";
+        projectForm.style.display = "block"
+        submitButton.removeAttribute('form','add-task-form')
+        submitButton.setAttribute('form','add-project-form')
    });
 
+   projectForm.addEventListener("submit",function(e){
+        e.preventDefault();
+    
+        projectForm.reset();
+        formDialog.close();
+        document.body.style.filter = 'none'
+   })
 
    showTasks();
 

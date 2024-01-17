@@ -57,7 +57,7 @@
               <button class="dialog-button" id="dialog-project">Project</button>
             </div>
             <form id="add-task-form">
-              <div class="form-container">
+              <div class="task-form-container">
                 <fieldset>
                   <label for="title">Title </label>
                   <input type="text" id="title" name="title" placeholder="E.g. Finish To Do Project" required>
@@ -79,11 +79,19 @@
                   <input type="date" name="date" id="date" required>
                 </fieldset>
               </div>
-              <div class="form-buttons">
-                <button id="submit-button" type="submit"><i class="fa-solid fa-check"></i></i></button>
-                <button id="cancel-button" value="cancel" formmethod="dialog" ><i class="fa-solid fa-xmark"></i></i></button>
+            </form>
+            <form id="add-project-form">
+              <div class="project-form-container">
+                <fieldset>
+                  <label for="project-name">Project Name</label>
+                  <input type="text" name="project-name" id="project-name" required >
+                </fieldset>
               </div>
             </form>
+            <div class="form-buttons">
+              <button id="submit-button" type="submit"  ><i class="fa-solid fa-check"></i></i></button>
+              <button id="cancel-button" value="cancel" formmethod="dialog" ><i class="fa-solid fa-xmark"></i></i></button>
+            </div>
         </dialog>
         <div id="task-container">
         </div>
