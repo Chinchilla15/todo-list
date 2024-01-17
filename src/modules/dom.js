@@ -122,6 +122,8 @@ export default function Dom(){
         ${newProject.name}`
 
         projectsContainer.appendChild(projectElement);
+        projectsContainer.innerHTML = ''
+        showProjects();
     };
 
   //Event listener for project form submission
@@ -144,8 +146,9 @@ export default function Dom(){
         console.log("Project information:", project);
         tabTitle.innerHTML = project.name;
         showButton.style.display = "block";
+        taskContainer.innerHTML = ''
         
-        showTasks().projectsTasks(project.name);
+        showProjectsTasks(project.name);
     };
 
  /**Add task function */
@@ -184,7 +187,6 @@ export default function Dom(){
         document.body.style.filter = 'none';
     });
 
-  function showTasks(filters = {}) {
     function renderTasks(task){
         const taskElement = document.createElement('li');
         taskElement.classList.add('task-box');
@@ -200,31 +202,28 @@ export default function Dom(){
         taskContainer.appendChild(taskElement);
     }
 
-    projectList.forEach(project => {
-      project.projectToDos.forEach(task => {
+    function showTasks(filters = {}) {
+        projectList.forEach(project => {
+            project.projectToDos.forEach(task => {
+                const isHighPriority = filters.priority === 'high' && task.priority === 'high';
+                const istaskToday = isToday(task.dueDate);
 
-        const isHighPriority = filters.priority === 'high' && task.priority === 'high';
-        const istaskToday = isToday(task.dueDate);
+                if(Object.keys(filters).length === 0 || isHighPriority || (istaskToday && filters.dueDate === task.dueDate)){
+                    renderTasks(task);
+                };
+            });
+        });
+    };
 
-        if(Object.keys(filters).length === 0 || isHighPriority || (istaskToday && filters.dueDate === task.dueDate)){
-            renderTasks(task);
-        };
-      });
-    });
-    
-    function projectsTasks(projectName) {
-        taskContainer.innerHTML = '';
+    function showProjectsTasks(projectName) {
         const selectedProject = projectList.find(project => project.name === projectName);
-
         if (selectedProject) {
             selectedProject.projectToDos.forEach(task => {
-               renderTasks(task);
+                renderTasks(task);
             });
         };
     };
 
-    return{projectsTasks};
-  };
 
   function showProjects(){
     projectList.forEach(project => {
@@ -235,8 +234,9 @@ export default function Dom(){
             ${project.name}`;
 
             projectElement.addEventListener('click',()=>{
+                console.log(`${project.name} Project clicked`)
                 renderProjectTab(project);
-            });
+            }); 
 
         projectsContainer.appendChild(projectElement);
     });
