@@ -1,5 +1,5 @@
-import Project from "./projects";
-import ToDo from "./todos";
+import Project from "./projects"; //Remove
+import ToDo from "./todos"; //Remove
 import { Create, Edit, Delete, projectList } from "./logic";
 
 const create = Create();
@@ -13,17 +13,15 @@ export default function Dom(){
     const todayButton = document.getElementById('today-button');
     const importantButton = document.getElementById('important-button');
     const projectButton = document.getElementById('projects-button');
-    const notesButton = document.getElementById('notes-button');
     const tabTitle = document.querySelector('.tab-title');
     const taskContainer = document.getElementById('task-container');
 
     const dialogTaskButton = document.getElementById('dialog-task');
     const dialogProjectButton = document.getElementById('dialog-project');
-    const dialogNoteButton = document.getElementById('dialog-note');
     
     homeButton.addEventListener('click',()=>{
-        console.log('Home button clicked');
-
+        console.log('Home button clicked'); //Remove
+        taskContainer.innerHTML = ''
         showTasks();
     });
     
@@ -34,7 +32,7 @@ export default function Dom(){
     const formDialog = document.getElementById("formDialog");   
     const showButton = document.getElementById("add-button");
     const cancelButton = document.getElementById("cancel-button");
-    
+
     showButton.addEventListener("click",() =>{
         formDialog.showModal();
         setActiveButton(dialogTaskButton);
@@ -61,7 +59,9 @@ export default function Dom(){
         <p class="task-name">${newTask.title}</p>
         <p class="task-date">${newTask.dueDate}</p>
         <i class="fa-solid fa-pen-to-square fa-lg"></i>
-        <i class="fa-solid fa-trash fa-lg"></i>`;
+        <i class="fa-solid fa-trash fa-lg"></i>
+        <i class="fa-solid fa-circle-info fa-lg"></i>`;
+        
 
     taskContainer.appendChild(taskElement);
     };
@@ -80,7 +80,8 @@ export default function Dom(){
           <p class="task-name">${task.title}</p>
           <p class="task-date">${task.dueDate}</p>
           <i class="fa-solid fa-pen-to-square fa-lg"></i>
-          <i class="fa-solid fa-trash fa-lg"></i>`;
+          <i class="fa-solid fa-trash fa-lg"></i>
+          <i class="fa-solid fa-circle-info fa-lg"></i>`;
 
         taskContainer.appendChild(taskElement);
       });
@@ -121,7 +122,6 @@ export default function Dom(){
     setActiveButton(dialogProjectButton);
    });
 
-   //ADD NOTES DIALOG FUNCTIONALITY
 
    showTasks();
 
