@@ -1,5 +1,5 @@
 import { format, isToday,} from 'date-fns';
-import { Create, Edit, Delete, projectList } from "./logic";
+import { Create, Edit, Delete, projectList, standAloneTasks } from "./logic";
 
 const create = Create();
 const edit = Edit();
@@ -8,7 +8,6 @@ console.log(projectList);
 
 export default function Dom(){
 
-    const mainContainer = document.querySelector('main');
     const homeButton = document.getElementById('home-button');
     const todayButton = document.getElementById('today-button');
     const importantButton = document.getElementById('important-button');
@@ -31,7 +30,7 @@ export default function Dom(){
             showButton.style.display = "block"
             showTasks();
         });
-    }
+    };
     
     function renderTodayTab(){
         todayButton.addEventListener('click',()=>{
@@ -69,8 +68,8 @@ export default function Dom(){
         document.body.style.filter = 'blur(4px)';
         taskForm.style.display = "block";
         projectForm.style.display = "none";
-        submitButton.setAttribute('form','add-task-form')
-    })
+        submitButton.setAttribute('form','add-task-form');
+    });
 
     cancelButton.addEventListener("click",(e)=>{
         e.preventDefault();
@@ -78,7 +77,7 @@ export default function Dom(){
         projectForm.reset();
         formDialog.close();
         document.body.style.filter = 'none';
-    })
+    });
 
     //Active button functionality
     const activeButtonClass = "active-button";
@@ -123,7 +122,14 @@ export default function Dom(){
 
         projectsContainer.appendChild(projectElement);
         projectsContainer.innerHTML = ''
-        showProjects();
+        showProjectsList();
+    };
+
+    //Function to set the selected project
+    let selectedProject = null;
+
+    function setSelectedProject(project) {
+        selectedProject = project;
     };
 
   //Event listener for project form submission
@@ -135,6 +141,8 @@ export default function Dom(){
 
         addProjectsToList(projectName);
 
+        setSelectedProject(projectList.find(project => project.name === projectName));
+
         projectForm.reset();
         formDialog.close();
         document.body.style.filter = 'none';
@@ -142,11 +150,13 @@ export default function Dom(){
 
 //Render Project Tab
     function renderProjectTab(project){
-        console.log("Rendering project tab:", project.name);
-        console.log("Project information:", project);
         tabTitle.innerHTML = project.name;
         showButton.style.display = "block";
         taskContainer.innerHTML = ''
+        
+        setSelectedProject(project);
+
+        console.log(selectedProject)
         
         showProjectsTasks(project.name);
     };
@@ -155,18 +165,7 @@ export default function Dom(){
     function addTaskToHome(title, project, dueDate, priority, info){
         const newTask = create.createTodo(title, project, dueDate, priority, info);
 
-        const taskElement = document.createElement('li');
-        taskElement.classList.add('task-box');
-        taskElement.setAttribute('data-priority', priority);
-        taskElement.innerHTML = `
-        <i class="fa-regular fa-square fa-xl"></i>
-        <p class="task-name">${newTask.title}</p>
-        <p class="task-date">${newTask.dueDate}</p>
-        <i class="fa-solid fa-pen-to-square fa-lg"></i>
-        <i class="fa-solid fa-trash fa-lg"></i>
-        <i class="fa-solid fa-circle-info fa-lg"></i>`;
-
-        taskContainer.appendChild(taskElement);
+       renderTasks(newTask);
     };
 
  // Event listener for the task form submission
@@ -180,12 +179,24 @@ export default function Dom(){
         const dueDate = document.getElementById("date").value;
         const project = undefined;    
 
-        addTaskToHome(title, project, dueDate, priority, description);
+        if (selectedProject) {
+            addTaskToProject(title, dueDate, priority, description);
+        } else {
+            addTaskToHome(title, project, dueDate, priority, description);
+        }
 
         taskForm.reset();
         formDialog.close();
         document.body.style.filter = 'none';
     });
+
+     // Function to add task to the selected project
+     function addTaskToProject(title, dueDate, priority, info) {
+        if (selectedProject) {
+            const newTask = create.createTodo(title, selectedProject.name, dueDate, priority, info);
+            renderTasks(newTask);
+        };
+    };
 
     function renderTasks(task){
         const taskElement = document.createElement('li');
@@ -200,7 +211,7 @@ export default function Dom(){
             <i class="fa-solid fa-circle-info fa-lg"></i>`;
 
         taskContainer.appendChild(taskElement);
-    }
+    };
 
     function showTasks(filters = {}) {
         projectList.forEach(project => {
@@ -212,6 +223,14 @@ export default function Dom(){
                     renderTasks(task);
                 };
             });
+        });
+        standAloneTasks.forEach(task => {
+            const isHighPriority = filters.priority === 'high' && task.priority === 'high';
+            const istaskToday = isToday(task.dueDate);
+    
+            if (Object.keys(filters).length === 0 || isHighPriority || (istaskToday && filters.dueDate === task.dueDate)) {
+                renderTasks(task);
+            };
         });
     };
 
@@ -225,7 +244,7 @@ export default function Dom(){
     };
 
 
-  function showProjects(){
+  function showProjectsList(){
     projectList.forEach(project => {
         const projectElement = document.createElement('li');
         projectElement.classList.add('p-list-element');
@@ -234,7 +253,6 @@ export default function Dom(){
             ${project.name}`;
 
             projectElement.addEventListener('click',()=>{
-                console.log(`${project.name} Project clicked`)
                 renderProjectTab(project);
             }); 
 
@@ -242,5 +260,5 @@ export default function Dom(){
     });
   };
 
-   return {showTasks, showProjects,renderHomeTab, renderTodayTab, renderImportantTab};
+   return {showTasks, showProjectsList,renderHomeTab, renderTodayTab, renderImportantTab};
 };
