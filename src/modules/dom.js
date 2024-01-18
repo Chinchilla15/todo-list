@@ -29,6 +29,7 @@ export default function Dom(){
             taskContainer.innerHTML = ''
             showButton.style.display = "block"
             showTasks();
+            dialogProjectButton.style.display = 'block'
         });
     };
     
@@ -152,6 +153,8 @@ export default function Dom(){
     function renderProjectTab(project){
         tabTitle.innerHTML = project.name;
         showButton.style.display = "block";
+        dialogProjectButton.style.display = "none";
+        dialogTaskButton.classList.remove('dialog-button')
         taskContainer.innerHTML = ''
         
         setSelectedProject(project);
