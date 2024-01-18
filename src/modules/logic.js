@@ -3,19 +3,27 @@ import Project from "./projects";
 import {format} from 'date-fns'
 
 const projectList = [];
+const standAloneTasks = []
 
 function Create(){
 
     function createTodo(title, project, dueDate, priority, info){
+        
+        if (!project) {
+            const newTodo = new ToDo(title, null, format(new Date(dueDate), 'MM/dd/yyyy'), priority, info);
+            standAloneTasks.push(newTodo);
+            return newTodo;
+        }
+    
         let existingProject = projectList.find(p => p.name === project);
-
-        if(!existingProject){
+    
+        if (!existingProject) {
             existingProject = createProject(project);
-        };
-
-        const newTodo = new ToDo(title, project, format(new Date(dueDate),'MM/dd/yyyy'), priority, info);
+        }
+    
+        const newTodo = new ToDo(title, existingProject, format(new Date(dueDate), 'MM/dd/yyyy'), priority, info);
         existingProject.addTodo(newTodo);
-
+    
         return newTodo;
     };
 
@@ -62,4 +70,4 @@ function Delete(){
     return {deleteTodo, deleteProject};
 };
 
-export {Create, Edit, Delete, projectList};
+export {Create, Edit, Delete, projectList, standAloneTasks};
