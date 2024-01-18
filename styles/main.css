@@ -214,6 +214,13 @@ transform: scaleX(1);
 }
 
 .active-button{
+    cursor: default;
+    border-style: none;
+    height: 90%;
+    width: 49%;
+    font-size: 20px;
+    background-color: var(--main-color);
+    color: var(--white-color);
     box-shadow: 0 0.5em 0.5em -0.4em var(--black-color);
     transform: translateY(-0.25em);
     background-color: var(--secondary-color);
