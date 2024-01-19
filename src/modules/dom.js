@@ -32,6 +32,8 @@ export default function Dom(){
         showButton.style.display = "block";
         showTasks();
         dialogProjectButton.style.display = 'block';
+        setSelectedProject(null);
+        console.log(standAloneTasks)
     };
 
     function renderTodayTab(){
@@ -296,21 +298,29 @@ export default function Dom(){
     function removeTask(taskElement) {
         const taskName = taskElement.querySelector('.task-name').textContent;
 
-        const standAloneTask = standAloneTasks.find((t) => t.title === taskName);
-        if (standAloneTask) {
+        const standAloneTaskIndex = standAloneTasks.findIndex((t) => t.title === taskName);
+        if (standAloneTaskIndex !== -1) {
+            const standAloneTask = standAloneTasks[standAloneTaskIndex];
             remove.deleteTodo(standAloneTask);
+            standAloneTasks.splice(standAloneTaskIndex, 1);
             taskElement.remove(); 
+            console.log(`removing stand-alone task: ${standAloneTask.title}`);
             return;
-        };
+        }
 
         for (const project of projectList) {
-            const projectTask = project.projectToDos.find((t) => t.title === taskName);
-            if (projectTask) {
-            remove.deleteTodo(projectTask);
-            taskElement.remove();
-            return;
-            };
-        };
+            const projectTaskIndex = project.projectToDos.findIndex((t) => t.title === taskName);
+            if (projectTaskIndex !== -1) {
+                const projectTask = project.projectToDos[projectTaskIndex];
+                remove.deleteTodo(projectTask);
+                project.projectToDos.splice(projectTaskIndex, 1);
+                taskElement.remove();
+                console.log(`removing project task: ${projectTask.title}`);
+                return;
+            }
+        }
+        taskContainer.innerHTML = '';
+        showTasks();
     };
 
     taskContainer.addEventListener('click', (e) => {
