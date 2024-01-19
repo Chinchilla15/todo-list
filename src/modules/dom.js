@@ -19,42 +19,51 @@ export default function Dom(){
     const dialogTaskButton = document.getElementById('dialog-task');
     const dialogProjectButton = document.getElementById('dialog-project');
 
+    const deleteProjectButton = document.createElement('button');
+    deleteProjectButton.classList.add('delete-project-button');
+
     //Forms
     const taskForm = document.getElementById('add-task-form');
     const projectForm = document.getElementById('add-project-form');
 
     function renderHomeTab(){
-        homeButton.addEventListener('click',()=>{
-            tabTitle.innerHTML = 'Home'
-            taskContainer.innerHTML = ''
-            showButton.style.display = "block"
-            showTasks();
-            dialogProjectButton.style.display = 'block'
-        });
+        tabTitle.innerHTML = 'Home';
+        taskContainer.innerHTML = '';
+        showButton.style.display = "block";
+        showTasks();
+        dialogProjectButton.style.display = 'block';
     };
-    
-    function renderTodayTab(){
-        todayButton.addEventListener('click',()=>{
-            showButton.style.display = "none";
-            taskContainer.innerHTML = '';
-            tabTitle.innerHTML = 'Today';
 
-           showTasks({
-            dueDate: format(new Date(), 'MM/dd/yyyy')
-           });
-        });
+    function renderTodayTab(){
+        tabTitle.innerHTML = 'Today';
+        taskContainer.innerHTML = '';
+        showButton.style.display = "none";
+    
+       showTasks({
+        dueDate: format(new Date(), 'MM/dd/yyyy')
+       });
     };
 
     function renderImportantTab(){
-        importantButton.addEventListener('click',()=>{
-            showButton.style.display = "none";
-            taskContainer.innerHTML = '';
-            tabTitle.innerHTML = 'Important';
-            showTasks({
-                priority: 'high'
-            });
+        tabTitle.innerHTML = 'Important';
+        taskContainer.innerHTML = '';
+        showButton.style.display = "none";
+        showTasks({
+            priority: 'high'
         });
     };
+    
+    homeButton.addEventListener('click',()=>{
+      renderHomeTab();
+    });    
+    
+    todayButton.addEventListener('click',()=>{
+       renderTodayTab();
+    });
+    
+    importantButton.addEventListener('click',()=>{
+        renderImportantTab();
+    });
 
     /**
      * Dialog Funcionality
@@ -107,6 +116,8 @@ export default function Dom(){
         setActiveButton(dialogProjectButton);
         taskForm.style.display = "none";
         projectForm.style.display = "block";
+        dialogTaskButton.classList.add('dialog-button');
+        dialogTaskButton.classList.remove('active-button');
         submitButton.removeAttribute('form','add-task-form');
         submitButton.setAttribute('form','add-project-form');
     });
@@ -151,7 +162,9 @@ export default function Dom(){
 
 //Render Project Tab
     function renderProjectTab(project){
+        deleteProjectButton.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
         tabTitle.innerHTML = project.name;
+        tabTitle.appendChild(deleteProjectButton);
         showButton.style.display = "block";
         dialogProjectButton.style.display = "none";
         dialogTaskButton.classList.remove('dialog-button')
@@ -262,6 +275,22 @@ export default function Dom(){
         projectsContainer.appendChild(projectElement);
     });
   };
+
+  function removeProject(){
+    if(selectedProject){
+        remove.deleteProject(selectedProject);
+    }else{
+        console.log('No project selected');
+    };
+  };
+
+  deleteProjectButton.addEventListener('click',()=>{
+    console.log('delete button clicked');
+    removeProject();
+    renderHomeTab();
+    projectsContainer.innerHTML = '';
+    showProjectsList();
+  });
 
    return {showTasks, showProjectsList,renderHomeTab, renderTodayTab, renderImportantTab};
 };

@@ -157,9 +157,31 @@ transform: scaleX(1);
 }
 
 .tab-title{
+    display: flex;
+    align-items: center;
     color: var(--blue-color);
     font-size: 40px;
     cursor: default;
+}
+
+.delete-project-button{
+    margin-left: 12px;
+    border-style: none;
+    background-color: var(--red-color);
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    font-size: 16px;
+    border-radius: 25px;
+    color: var(--white-color);
+    transition: transform .2s;
+}
+
+.delete-project-button:hover{
+    transform: scale(1.15);
+    box-shadow:
+    2px 4px 6px var(--black-color),
+    inset 0 0 0 var(--black-color);
 }
 
 #add-button{
