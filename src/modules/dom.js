@@ -316,13 +316,25 @@ export default function Dom(){
     taskContainer.addEventListener('click', (e) => {
         const trashIcon = e.target.closest('.fa-trash');
         const squareIcon = e.target.closest('.fa-square');
+        const squareIconChecked = e.target.closest('.fa-square-check')
 
         if (trashIcon) {
             const taskElement = trashIcon.closest('.task-box');
             removeTask(taskElement);
-        }else if(squareIcon){
+        }
+
+        if(squareIcon){
             const taskElement = squareIcon.closest('.task-box');
-            removeTask(taskElement);
+            squareIcon.classList.toggle('fa-square-check');
+            squareIcon.classList.toggle('fa-square');
+            taskElement.classList.add('checked-task');
+        }
+
+        if(squareIconChecked){
+            const taskElement = squareIconChecked.closest('.task-box');
+            squareIconChecked.classList.toggle('fa-square');
+            squareIconChecked.classList.toggle('fa-square-check');
+            taskElement.classList.remove('checked-task');
         }
     });
     
