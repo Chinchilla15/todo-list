@@ -292,5 +292,40 @@ export default function Dom(){
     showProjectsList();
   });
 
+ // Function to remove a task
+    function removeTask(taskElement) {
+        const taskName = taskElement.querySelector('.task-name').textContent;
+
+        const standAloneTask = standAloneTasks.find((t) => t.title === taskName);
+        if (standAloneTask) {
+            remove.deleteTodo(standAloneTask);
+            taskElement.remove(); 
+            return;
+        };
+
+        for (const project of projectList) {
+            const projectTask = project.projectToDos.find((t) => t.title === taskName);
+            if (projectTask) {
+            remove.deleteTodo(projectTask);
+            taskElement.remove();
+            return;
+            };
+        };
+    };
+
+    taskContainer.addEventListener('click', (e) => {
+        const trashIcon = e.target.closest('.fa-trash');
+        const squareIcon = e.target.closest('.fa-square');
+
+        if (trashIcon) {
+            const taskElement = trashIcon.closest('.task-box');
+            removeTask(taskElement);
+        }else if(squareIcon){
+            const taskElement = squareIcon.closest('.task-box');
+            removeTask(taskElement);
+        }
+    });
+    
+  
    return {showTasks, showProjectsList,renderHomeTab, renderTodayTab, renderImportantTab};
 };
