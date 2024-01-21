@@ -208,7 +208,12 @@ export default function Dom(){
             editingTask = null;
 
             taskContainer.innerHTML = '';
-            showTasks();
+            
+            if(selectedProject){
+                showProjectsTasks(selectedProject.name)
+            }else{
+                showTasks()
+            }
           
         } else if (selectedProject) {
             addTaskToProject(title, dueDate, priority);
