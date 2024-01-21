@@ -33,17 +33,12 @@ function Create(){
 };
 
 function Edit(){
-    function editTodo(todo, updatedInfo) {
-        Object.assign(todo, updatedInfo);
-        return todo;
-      };
-    
-      function editProject(project, updatedInfo) {
-        Object.assign(project, updatedInfo);
-        return project;
-      };
-    
-      return { editTodo, editProject };
+    function editItem(item, updatedInfo) {
+        Object.assign(item, updatedInfo);
+        return item;
+    }
+
+    return { editItem };
 }
 
 function Delete(){

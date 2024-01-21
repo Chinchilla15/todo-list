@@ -202,7 +202,15 @@ export default function Dom(){
         const dueDate = document.getElementById("date").value;
         const project = undefined;    
 
-        if (selectedProject) {
+        if (editingTask) {
+            edit.editItem(editingTask, { title, priority, dueDate });
+
+            editingTask = null;
+
+            taskContainer.innerHTML = '';
+            showTasks();
+          
+        } else if (selectedProject) {
             addTaskToProject(title, dueDate, priority);
         } else {
             addTaskToHome(title, project, dueDate, priority);
@@ -221,7 +229,7 @@ export default function Dom(){
         };
     };
 
-    function renderTasks(task){
+    function renderTasks(task, isEdited = false){
         const taskElement = document.createElement('li');
         taskElement.classList.add('task-box');
         taskElement.setAttribute('data-priority', task.priority);
@@ -233,6 +241,13 @@ export default function Dom(){
             <i class="fa-solid fa-trash fa-lg"></i>`;
 
         taskContainer.appendChild(taskElement);
+
+        if (isEdited) {
+            const previousTaskElement = taskContainer.querySelector(`[data-priority="${task.priority}"]`);
+            if (previousTaskElement) {
+                previousTaskElement.remove();
+            }
+        }
     };
 
     function showTasks(filters = {}) {
@@ -302,7 +317,10 @@ export default function Dom(){
     let editingTask = null;
     function openEditDialog(task) {
         showForm();
-        // Populate form fields with existing task information
+
+        editingTask = task;
+
+        const dialogTitle = document.getElementById('dialog-title');
         const titleInput = document.getElementById("title");
         const priorityInput = document.getElementById("priority");
         const dateInput = document.getElementById("date");
@@ -359,13 +377,11 @@ export default function Dom(){
             const standAloneTask = standAloneTasks.find((t) => t.title === taskName);
             if (standAloneTask) {
                 openEditDialog(standAloneTask);
-                // Handle the edit form submission for stand-alone tasks
             } else {
                 for (const project of projectList) {
                     const projectTask = project.projectToDos.find((t) => t.title === taskName);
                     if (projectTask) {
                         openEditDialog(projectTask);
-                        // Handle the edit form submission for project tasks
                         return;
                     };
                 };
@@ -387,6 +403,6 @@ export default function Dom(){
         }
     });
     
-  
+
    return {showTasks, showProjectsList,renderHomeTab, renderTodayTab, renderImportantTab};
 };
