@@ -42,7 +42,7 @@ export default function Dom(){
         showButton.style.display = "none";
     
        showTasks({
-        dueDate: format(new Date(), 'MM/dd/yyyy')
+            dueDate: format(new Date(), 'MM/dd/yyyy')
        });
     };
 
@@ -74,31 +74,39 @@ export default function Dom(){
     const showButton = document.getElementById("add-button");
     const cancelButton = document.getElementById("cancel-button");
 
-    showButton.addEventListener("click",() =>{
+    function showForm(){
         formDialog.showModal();
         setActiveButton(dialogTaskButton);
         document.body.style.filter = 'blur(4px)';
         taskForm.style.display = "block";
         projectForm.style.display = "none";
         submitButton.setAttribute('form','add-task-form');
-    });
+    }
 
-    cancelButton.addEventListener("click",(e)=>{
+    function closeForm(e){
         e.preventDefault();
         taskForm.reset();
         projectForm.reset();
         formDialog.close();
         document.body.style.filter = 'none';
+    }
+
+    showButton.addEventListener("click",() =>{
+       showForm();
+    });
+
+    cancelButton.addEventListener("click",(e)=>{
+        closeForm(e);
     });
 
     //Active button functionality
     const activeButtonClass = "active-button";
 
     function setActiveButton(button) {
-    document.querySelectorAll('.dialog-button').forEach((btn) => {
-    btn.classList.remove(activeButtonClass);
+        document.querySelectorAll('.dialog-button').forEach((btn) => {
+        btn.classList.remove(activeButtonClass);
     });
-    button.classList.add(activeButtonClass);
+        button.classList.add(activeButtonClass);
     };
 
     function capitalizeFirstLetter(name) {
@@ -222,8 +230,7 @@ export default function Dom(){
             <p class="task-name">${task.title}</p>
             <p class="task-date">${task.dueDate}</p>
             <i class="fa-solid fa-pen-to-square fa-lg"></i>
-            <i class="fa-solid fa-trash fa-lg"></i>
-            <i class="fa-solid fa-circle-info fa-lg"></i>`;
+            <i class="fa-solid fa-trash fa-lg"></i>`;
 
         taskContainer.appendChild(taskElement);
     };
@@ -283,13 +290,27 @@ export default function Dom(){
     };
   };
 
-  deleteProjectButton.addEventListener('click',()=>{
-    console.log('delete button clicked');
-    removeProject();
-    renderHomeTab();
-    projectsContainer.innerHTML = '';
-    showProjectsList();
-  });
+    deleteProjectButton.addEventListener('click',()=>{
+        console.log('delete button clicked');
+        removeProject();
+        renderHomeTab();
+        projectsContainer.innerHTML = '';
+        showProjectsList();
+    });
+    
+    /// Function to open the dialog for editing an existing task
+    let editingTask = null;
+    function openEditDialog(task) {
+        showForm();
+        // Populate form fields with existing task information
+        const titleInput = document.getElementById("title");
+        const priorityInput = document.getElementById("priority");
+        const dateInput = document.getElementById("date");
+    
+        titleInput.value = task.title;
+        priorityInput.value = task.priority;
+        dateInput.value = task.dueDate;
+    }
 
  // Function to remove a task
     function removeTask(taskElement) {
@@ -323,12 +344,33 @@ export default function Dom(){
     taskContainer.addEventListener('click', (e) => {
         const trashIcon = e.target.closest('.fa-trash');
         const squareIcon = e.target.closest('.fa-square');
+        const editIcon = e.target.closest('.fa-pen-to-square');
         const squareIconChecked = e.target.closest('.fa-square-check')
 
         if (trashIcon) {
             const taskElement = trashIcon.closest('.task-box');
             removeTask(taskElement);
         }
+
+        if (editIcon) {
+            const taskElement = editIcon.closest('.task-box');
+            const taskName = taskElement.querySelector('.task-name').textContent;
+    
+            const standAloneTask = standAloneTasks.find((t) => t.title === taskName);
+            if (standAloneTask) {
+                openEditDialog(standAloneTask);
+                // Handle the edit form submission for stand-alone tasks
+            } else {
+                for (const project of projectList) {
+                    const projectTask = project.projectToDos.find((t) => t.title === taskName);
+                    if (projectTask) {
+                        openEditDialog(projectTask);
+                        // Handle the edit form submission for project tasks
+                        return;
+                    };
+                };
+            };
+        };
 
         if(squareIcon){
             const taskElement = squareIcon.closest('.task-box');
