@@ -204,8 +204,8 @@ transform: scaleX(1);
 
 #formDialog{
     border: none;
-    width: clamp(40%, 50%, 60%);
-    height: clamp(40%, 50%, 60%);
+    width: clamp(400px, 30%, 50%);
+    height: clamp(500px, 50%, 60%);
     border-radius: 10px;
     box-shadow: 3px 4px 10px 0px rgba(0, 0, 0, 0.5);
     text-align: center;
@@ -258,8 +258,6 @@ transform: scaleX(1);
 
 .task-form-container{
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 0.4fr 0.4fr;
     align-items: center;
     align-content: center;
     height: 100%;
