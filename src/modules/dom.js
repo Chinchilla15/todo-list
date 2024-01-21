@@ -155,8 +155,6 @@ export default function Dom(){
 
         addProjectsToList(projectName);
 
-        setSelectedProject(projectList.find(project => project.name === projectName));
-
         projectForm.reset();
         formDialog.close();
         document.body.style.filter = 'none';
@@ -180,8 +178,8 @@ export default function Dom(){
     };
 
  /**Add task function */
-    function addTaskToHome(title, project, dueDate, priority, info){
-        const newTask = create.createTodo(title, project, dueDate, priority, info);
+    function addTaskToHome(title, project, dueDate, priority){
+        const newTask = create.createTodo(title, project, dueDate, priority);
 
        renderTasks(newTask);
     };
@@ -193,14 +191,13 @@ export default function Dom(){
         const titleInput = document.getElementById("title");
         const title = capitalizeFirstLetter(titleInput.value)
         const priority = document.getElementById("priority").value;
-        const description = document.getElementById("description").value;
         const dueDate = document.getElementById("date").value;
         const project = undefined;    
 
         if (selectedProject) {
-            addTaskToProject(title, dueDate, priority, description);
+            addTaskToProject(title, dueDate, priority);
         } else {
-            addTaskToHome(title, project, dueDate, priority, description);
+            addTaskToHome(title, project, dueDate, priority);
         }
 
         taskForm.reset();
@@ -209,9 +206,9 @@ export default function Dom(){
     });
 
      // Function to add task to the selected project
-     function addTaskToProject(title, dueDate, priority, info) {
+     function addTaskToProject(title, dueDate, priority) {
         if (selectedProject) {
-            const newTask = create.createTodo(title, selectedProject.name, dueDate, priority, info);
+            const newTask = create.createTodo(title, selectedProject.name, dueDate, priority);
             renderTasks(newTask);
         };
     };

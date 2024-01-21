@@ -7,21 +7,17 @@ const standAloneTasks = []
 
 function Create(){
 
-    function createTodo(title, project, dueDate, priority, info){
+    function createTodo(title, project, dueDate, priority){
         
         if (!project) {
-            const newTodo = new ToDo(title, null, format(new Date(dueDate), 'MM/dd/yyyy'), priority, info);
+            const newTodo = new ToDo(title, null, format(new Date(dueDate), 'MM/dd/yyyy'), priority);
             standAloneTasks.push(newTodo);
             return newTodo;
         }
     
         let existingProject = projectList.find(p => p.name === project);
     
-        if (!existingProject) {
-            existingProject = createProject(project);
-        }
-    
-        const newTodo = new ToDo(title, existingProject, format(new Date(dueDate), 'MM/dd/yyyy'), priority, info);
+        const newTodo = new ToDo(title, existingProject, format(new Date(dueDate), 'MM/dd/yyyy'), priority);
         existingProject.addTodo(newTodo);
     
         return newTodo;
@@ -52,12 +48,16 @@ function Edit(){
 
 function Delete(){
     function deleteTodo(todo){
+        const standAloneIndex = standAloneTasks.indexOf(todo);
+        if (standAloneIndex !== -1) {
+            standAloneTasks.splice(standAloneIndex, 1);
+        }
         projectList.forEach(project => {
-      const index = project.projectToDos.indexOf(todo);
-      if (index !== -1) {
-        project.projectToDos.splice(index, 1);
-      };
-    });
+            const index = project.projectToDos.indexOf(todo);
+            if (index !== -1) {
+                project.projectToDos.splice(index, 1);
+            };
+        });
     };
 
     function deleteProject(project){
