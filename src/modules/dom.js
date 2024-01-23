@@ -93,6 +93,8 @@ export default function Dom(){
         projectForm.reset();
         formDialog.close();
         document.body.style.filter = 'none';
+
+        editingTask = null
     }
 
     showButton.addEventListener("click",() =>{
@@ -244,10 +246,11 @@ export default function Dom(){
         const taskElement = document.createElement('li');
         taskElement.classList.add('task-box');
         taskElement.setAttribute('data-priority', task.priority);
+        const formattedDate = format(new Date(task.dueDate), 'MM/dd/yyyy')
         taskElement.innerHTML = `
             <i class="fa-regular fa-square fa-xl"></i>
             <p class="task-name">${task.title}</p>
-            <p class="task-date">${task.dueDate}</p>
+            <p class="task-date">${formattedDate}</p>
             <i class="fa-solid fa-pen-to-square fa-lg"></i>
             <i class="fa-solid fa-trash fa-lg"></i>`;
 
@@ -265,18 +268,23 @@ export default function Dom(){
         projectList.forEach(project => {
             project.projectToDos.forEach(task => {
                 const isHighPriority = filters.priority === 'high' && task.priority === 'high';
-                const istaskToday = isToday(task.dueDate);
+                const formattedDate = format(new Date(task.dueDate), 'MM/dd/yyyy')
+                const istaskToday = isToday(formattedDate);
+                
+                console.log(istaskToday)
 
-                if(Object.keys(filters).length === 0 || isHighPriority || (istaskToday && filters.dueDate === task.dueDate)){
+                if(Object.keys(filters).length === 0 || isHighPriority || (istaskToday && filters.dueDate === formattedDate)){
                     renderTasks(task);
                 };
             });
         });
         standAloneTasks.forEach(task => {
             const isHighPriority = filters.priority === 'high' && task.priority === 'high';
-            const istaskToday = isToday(task.dueDate);
+            const formattedDate = format(new Date(task.dueDate), 'MM/dd/yyyy')
+            const istaskToday = isToday(formattedDate);
+            console.log(istaskToday)
     
-            if (Object.keys(filters).length === 0 || isHighPriority || (istaskToday && filters.dueDate === task.dueDate)) {
+            if (Object.keys(filters).length === 0 || isHighPriority || (istaskToday && filters.dueDate === formattedDate)) {
                 renderTasks(task);
             };
         });
@@ -336,10 +344,12 @@ export default function Dom(){
         const titleInput = document.getElementById("title");
         const priorityInput = document.getElementById("priority");
         const dateInput = document.getElementById("date");
+
+        const formattedDate = format(new Date(task.dueDate), 'yyyy-MM-dd')
     
         titleInput.value = task.title;
         priorityInput.value = task.priority;
-        dateInput.value = task.dueDate;
+        dateInput.value = formattedDate;
     }
 
  // Function to remove a task
