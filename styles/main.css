@@ -260,6 +260,7 @@ transform: scaleX(1);
     display: grid;
     align-items: center;
     align-content: center;
+    gap: 20px;
     height: 100%;
 }
 
