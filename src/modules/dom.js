@@ -4,7 +4,7 @@ import { Create, Edit, Delete, projectList, standAloneTasks } from "./logic";
 const create = Create();
 const edit = Edit();
 const remove = Delete();
-console.log(projectList);
+//console.log(projectList);
 
 export default function Dom(){
 
@@ -35,7 +35,7 @@ export default function Dom(){
         showTasks();
         dialogProjectButton.style.display = 'block';
         setSelectedProject(null);
-        console.log(standAloneTasks)
+        //console.log(standAloneTasks)
     };
 
     function renderTodayTab(){
@@ -83,9 +83,9 @@ export default function Dom(){
         taskForm.style.display = "block";
         projectForm.style.display = "none";
         submitButton.setAttribute('form','add-task-form');
-        dialogTitle.innerHTML = 'Add new...' 
-        dialogButtonsBox.style.display = 'flex'    
-    }
+        dialogTitle.innerHTML = 'Add new...' ;
+        dialogButtonsBox.style.display = 'flex'    ;
+    };
 
     function closeForm(e){
         e.preventDefault();
@@ -93,9 +93,8 @@ export default function Dom(){
         projectForm.reset();
         formDialog.close();
         document.body.style.filter = 'none';
-
-        editingTask = null
-    }
+        editingTask = null;
+    };
 
     showButton.addEventListener("click",() =>{
        showForm();
@@ -137,6 +136,26 @@ export default function Dom(){
         submitButton.removeAttribute('form','add-task-form');
         submitButton.setAttribute('form','add-project-form');
     });
+
+    /// Function to open the dialog for editing an existing task
+    let editingTask = null;
+    function openEditDialog(task) {
+        showForm();
+        dialogTitle.innerHTML = 'Edit';
+        dialogButtonsBox.style.display = 'none';   
+
+        editingTask = task;
+
+        const titleInput = document.getElementById("title");
+        const priorityInput = document.getElementById("priority");
+        const dateInput = document.getElementById("date");
+
+        const formattedDate = format(new Date(task.dueDate), 'yyyy-MM-dd');
+    
+        titleInput.value = task.title;
+        priorityInput.value = task.priority;
+        dateInput.value = formattedDate;
+    };
 
 /**Add projects function */
     function addProjectsToList(name){
@@ -188,8 +207,6 @@ export default function Dom(){
         
         setSelectedProject(project);
 
-        console.log(selectedProject)
-        
         showProjectsTasks(project.name);
     };
 
@@ -218,16 +235,16 @@ export default function Dom(){
             taskContainer.innerHTML = '';
             
             if(selectedProject){
-                showProjectsTasks(selectedProject.name)
+                showProjectsTasks(selectedProject.name);
             }else{
-                showTasks()
-            }
+                showTasks();
+            };
           
         } else if (selectedProject) {
             addTaskToProject(title, dueDate, priority);
         } else {
             addTaskToHome(title, project, dueDate, priority);
-        }
+        };
 
         taskForm.reset();
         formDialog.close();
@@ -260,18 +277,16 @@ export default function Dom(){
             const previousTaskElement = taskContainer.querySelector(`[data-priority="${task.priority}"]`);
             if (previousTaskElement) {
                 previousTaskElement.remove();
-            }
-        }
+            };
+        };
     };
 
     function showTasks(filters = {}) {
         projectList.forEach(project => {
             project.projectToDos.forEach(task => {
                 const isHighPriority = filters.priority === 'high' && task.priority === 'high';
-                const formattedDate = format(new Date(task.dueDate), 'MM/dd/yyyy')
+                const formattedDate = format(new Date(task.dueDate), 'MM/dd/yyyy');
                 const istaskToday = isToday(formattedDate);
-                
-                console.log(istaskToday)
 
                 if(Object.keys(filters).length === 0 || isHighPriority || (istaskToday && filters.dueDate === formattedDate)){
                     renderTasks(task);
@@ -280,9 +295,8 @@ export default function Dom(){
         });
         standAloneTasks.forEach(task => {
             const isHighPriority = filters.priority === 'high' && task.priority === 'high';
-            const formattedDate = format(new Date(task.dueDate), 'MM/dd/yyyy')
+            const formattedDate = format(new Date(task.dueDate), 'MM/dd/yyyy');
             const istaskToday = isToday(formattedDate);
-            console.log(istaskToday)
     
             if (Object.keys(filters).length === 0 || isHighPriority || (istaskToday && filters.dueDate === formattedDate)) {
                 renderTasks(task);
@@ -319,39 +333,16 @@ export default function Dom(){
   function removeProject(){
     if(selectedProject){
         remove.deleteProject(selectedProject);
-    }else{
-        console.log('No project selected');
     };
   };
 
     deleteProjectButton.addEventListener('click',()=>{
-        console.log('delete button clicked');
         removeProject();
         renderHomeTab();
         projectsContainer.innerHTML = '';
         showProjectsList();
     });
     
-    /// Function to open the dialog for editing an existing task
-    let editingTask = null;
-    function openEditDialog(task) {
-        showForm();
-        dialogTitle.innerHTML = 'Edit' 
-        dialogButtonsBox.style.display = 'none'       
-
-        editingTask = task;
-
-        const titleInput = document.getElementById("title");
-        const priorityInput = document.getElementById("priority");
-        const dateInput = document.getElementById("date");
-
-        const formattedDate = format(new Date(task.dueDate), 'yyyy-MM-dd')
-    
-        titleInput.value = task.title;
-        priorityInput.value = task.priority;
-        dateInput.value = formattedDate;
-    }
-
  // Function to remove a task
     function removeTask(taskElement) {
         const taskName = taskElement.querySelector('.task-name').textContent;
@@ -361,10 +352,9 @@ export default function Dom(){
             const standAloneTask = standAloneTasks[standAloneTaskIndex];
             remove.deleteTodo(standAloneTask);
             standAloneTasks.splice(standAloneTaskIndex, 1);
-            taskElement.remove(); 
-            console.log(`removing stand-alone task: ${standAloneTask.title}`);
+            taskElement.remove();
             return;
-        }
+        };
 
         for (const project of projectList) {
             const projectTaskIndex = project.projectToDos.findIndex((t) => t.title === taskName);
@@ -373,10 +363,9 @@ export default function Dom(){
                 remove.deleteTodo(projectTask);
                 project.projectToDos.splice(projectTaskIndex, 1);
                 taskElement.remove();
-                console.log(`removing project task: ${projectTask.title}`);
                 return;
-            }
-        }
+            };
+        };
         taskContainer.innerHTML = '';
         showTasks();
     };
@@ -385,12 +374,12 @@ export default function Dom(){
         const trashIcon = e.target.closest('.fa-trash');
         const squareIcon = e.target.closest('.fa-square');
         const editIcon = e.target.closest('.fa-pen-to-square');
-        const squareIconChecked = e.target.closest('.fa-square-check')
+        const squareIconChecked = e.target.closest('.fa-square-check');
 
         if (trashIcon) {
             const taskElement = trashIcon.closest('.task-box');
             removeTask(taskElement);
-        }
+        };
 
         if (editIcon) {
             const taskElement = editIcon.closest('.task-box');
@@ -415,16 +404,15 @@ export default function Dom(){
             squareIcon.classList.toggle('fa-square-check');
             squareIcon.classList.toggle('fa-square');
             taskElement.classList.add('checked-task');
-        }
+        };
 
         if(squareIconChecked){
             const taskElement = squareIconChecked.closest('.task-box');
             squareIconChecked.classList.toggle('fa-square');
             squareIconChecked.classList.toggle('fa-square-check');
             taskElement.classList.remove('checked-task');
-        }
+        };
     });
-    
 
    return {showTasks, showProjectsList,renderHomeTab, renderTodayTab, renderImportantTab};
 };

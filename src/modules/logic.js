@@ -1,25 +1,24 @@
 import ToDo from "./todos";
 import Project from "./projects";
-import {format} from 'date-fns'
 
 const projectList = [];
-const standAloneTasks = []
+const standAloneTasks = [];
 
 function Create(){
 
     function createTodo(title, project, dueDate, priority){
         
         if (!project) {
-            const newTodo = new ToDo(title, null, format(new Date(dueDate), 'MM/dd/yyyy'), priority);
+            const newTodo = new ToDo(title, null, dueDate, priority);
             standAloneTasks.push(newTodo);
             return newTodo;
-        }
-    
+        };
+
         let existingProject = projectList.find(p => p.name === project);
-    
-        const newTodo = new ToDo(title, existingProject, format(new Date(dueDate), 'MM/dd/yyyy'), priority);
+
+        const newTodo = new ToDo(title, existingProject, dueDate, priority);
         existingProject.addTodo(newTodo);
-    
+
         return newTodo;
     };
 
