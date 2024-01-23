@@ -16,6 +16,8 @@ export default function Dom(){
     const projectsContainer = document.querySelector('.projects-list');
     const submitButton = document.getElementById('submit-button');
 
+    const dialogTitle = document.getElementById('dialog-title');
+    const dialogButtonsBox = document.querySelector('.buttons-box')
     const dialogTaskButton = document.getElementById('dialog-task');
     const dialogProjectButton = document.getElementById('dialog-project');
 
@@ -81,6 +83,8 @@ export default function Dom(){
         taskForm.style.display = "block";
         projectForm.style.display = "none";
         submitButton.setAttribute('form','add-task-form');
+        dialogTitle.innerHTML = 'Add new...' 
+        dialogButtonsBox.style.display = 'flex'    
     }
 
     function closeForm(e){
@@ -174,6 +178,8 @@ export default function Dom(){
         tabTitle.innerHTML = project.name;
         tabTitle.appendChild(deleteProjectButton);
         showButton.style.display = "block";
+        dialogTitle.innerHTML = 'Add new...'
+        dialogProjectButton.style.display = 'block';
         dialogProjectButton.style.display = "none";
         dialogTaskButton.classList.remove('dialog-button')
         taskContainer.innerHTML = ''
@@ -322,10 +328,11 @@ export default function Dom(){
     let editingTask = null;
     function openEditDialog(task) {
         showForm();
+        dialogTitle.innerHTML = 'Edit' 
+        dialogButtonsBox.style.display = 'none'       
 
         editingTask = task;
 
-        const dialogTitle = document.getElementById('dialog-title');
         const titleInput = document.getElementById("title");
         const priorityInput = document.getElementById("priority");
         const dateInput = document.getElementById("date");
