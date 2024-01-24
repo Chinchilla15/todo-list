@@ -43,18 +43,18 @@ Implemented Local Storage API to save the information in the browser local stora
 ## Screenshots 📸
 
 Home Page
-![App Screenshot](Images/Home%20Tab.png?raw=true)
+![App Screenshot](images/Home%20Tab.png?raw=true)
 
 Today Tab
-![App Screenshot](Images/Today%20Tab.png?raw=true)
+![App Screenshot](images/Today%20Tab.png?raw=true)
 
 Important Tab
-![App Screenshot](Images/Important%20Tab.png?raw=true)
+![App Screenshot](images/Important%20Tab.png?raw=true)
 
 Project Tab
-![App Screenshot](Images/School%20Tab.png?raw=true)
+![App Screenshot](images/School%20Tab.png?raw=true)
 
 Add/Edit
-![App Screenshot](Images/Add%20Task.png?raw=true)
-![App Screenshot](Images/Add%20Project.png?raw=true)
-![App Screenshot](Images/Edit.png?raw=true)
+![App Screenshot](images/Add%20Task.png?raw=true)
+![App Screenshot](images/Add%20Project.png?raw=true)
+![App Screenshot](images/Edit.png?raw=true)
