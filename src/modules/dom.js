@@ -1,5 +1,7 @@
 import { format, isToday,} from 'date-fns';
-import { Create, Edit, Delete, projectList, standAloneTasks } from "./logic";
+import { Create, Edit, Delete, standAloneTasks } from "./logic";
+import { projectList } from './projects';
+import { saveToLocalStorage, loadFromLocalStorage } from './storage';
 
 const create = Create();
 const edit = Edit();
@@ -104,6 +106,14 @@ export default function Dom(){
         closeForm(e);
     });
 
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            if (formDialog.open) {
+                closeForm(e);
+            };
+        };
+    });
+
     //Active button functionality
     const activeButtonClass = "active-button";
 
@@ -191,6 +201,8 @@ export default function Dom(){
         projectForm.reset();
         formDialog.close();
         document.body.style.filter = 'none';
+
+        saveToLocalStorage();
     });
 
 //Render Project Tab
@@ -233,6 +245,7 @@ export default function Dom(){
             editingTask = null;
 
             taskContainer.innerHTML = '';
+            saveToLocalStorage();
             
             if(selectedProject){
                 showProjectsTasks(selectedProject.name);
@@ -242,8 +255,10 @@ export default function Dom(){
           
         } else if (selectedProject) {
             addTaskToProject(title, dueDate, priority);
+            saveToLocalStorage();
         } else {
             addTaskToHome(title, project, dueDate, priority);
+            saveToLocalStorage();
         };
 
         taskForm.reset();
@@ -262,10 +277,18 @@ export default function Dom(){
     function renderTasks(task, isEdited = false){
         const taskElement = document.createElement('li');
         taskElement.classList.add('task-box');
+        let checkBox = '';
+        if(task.completed === true){
+            checkBox = '<i class="fa-regular fa-square-check fa-xl"></i>';
+            taskElement.classList.toggle('checked-task');
+        }else if(task.completed === false){
+            checkBox = '<i class="fa-regular fa-square fa-xl"></i>';
+        };
+
         taskElement.setAttribute('data-priority', task.priority);
         const formattedDate = format(new Date(task.dueDate), 'MM/dd/yyyy')
         taskElement.innerHTML = `
-            <i class="fa-regular fa-square fa-xl"></i>
+           ${checkBox}
             <p class="task-name">${task.title}</p>
             <p class="task-date">${formattedDate}</p>
             <i class="fa-solid fa-pen-to-square fa-lg"></i>
@@ -334,6 +357,7 @@ export default function Dom(){
     if(selectedProject){
         remove.deleteProject(selectedProject);
     };
+   saveToLocalStorage()
   };
 
     deleteProjectButton.addEventListener('click',()=>{
@@ -353,6 +377,7 @@ export default function Dom(){
             remove.deleteTodo(standAloneTask);
             standAloneTasks.splice(standAloneTaskIndex, 1);
             taskElement.remove();
+            saveToLocalStorage();
             return;
         };
 
@@ -399,18 +424,25 @@ export default function Dom(){
             };
         };
 
-        if(squareIcon){
-            const taskElement = squareIcon.closest('.task-box');
-            squareIcon.classList.toggle('fa-square-check');
-            squareIcon.classList.toggle('fa-square');
-            taskElement.classList.add('checked-task');
-        };
-
-        if(squareIconChecked){
-            const taskElement = squareIconChecked.closest('.task-box');
-            squareIconChecked.classList.toggle('fa-square');
-            squareIconChecked.classList.toggle('fa-square-check');
-            taskElement.classList.remove('checked-task');
+        if (squareIcon || squareIconChecked) {
+            const taskElement = squareIcon ? squareIcon.closest('.task-box') : squareIconChecked.closest('.task-box');
+            taskElement.classList.toggle('checked-task');
+    
+            const icon = taskElement.querySelector('.fa-regular');
+            if (icon) {
+                icon.classList.toggle('fa-square-check');
+                icon.classList.toggle('fa-square');
+            }
+        
+            // Update the completion state in the task object
+            const taskName = taskElement.querySelector('.task-name').textContent;
+            const task = standAloneTasks.find((t) => t.title === taskName) ||
+                projectList.reduce((acc, project) => acc.concat(project.projectToDos), []).find((t) => t.title === taskName);
+        
+            if (task) {
+                task.completed = !task.completed;
+                saveToLocalStorage();
+            };
         };
     });
 
