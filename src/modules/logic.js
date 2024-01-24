@@ -1,8 +1,8 @@
 import ToDo from "./todos";
 import Project from "./projects";
+import { projectList } from "./projects";
 
-const projectList = [];
-const standAloneTasks = [];
+let standAloneTasks = [];
 
 function Create(){
 
@@ -17,7 +17,7 @@ function Create(){
         let existingProject = projectList.find(p => p.name === project);
 
         const newTodo = new ToDo(title, existingProject, dueDate, priority);
-        existingProject.addTodo(newTodo);
+        existingProject.projectToDos.push(newTodo)
 
         return newTodo;
     };
@@ -64,4 +64,19 @@ function Delete(){
     return {deleteTodo, deleteProject};
 };
 
-export {Create, Edit, Delete, projectList, standAloneTasks};
+if(localStorage.getItem('standAloneTasks') === null){
+   standAloneTasks = [
+        {
+            title: "Example",
+            dueDate: "2024-01-11",
+            priority: "low",
+            project: null,
+            completed: false,
+        },
+    ]
+} else{
+    const tasksFromStorage = JSON.parse(localStorage.getItem('standAloneTasks'));
+    standAloneTasks = tasksFromStorage;
+};
+
+export {Create, Edit, Delete, standAloneTasks};
