@@ -411,3 +411,23 @@ select{
 .checked-task{
     opacity: 0.4;
 }
+
+footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--white-color);
+}
+
+.fa-github{
+    cursor: pointer;
+    color: var(--white-color);
+    margin-left: 4px;
+    transition: transform .2s;
+}
+
+.fa-github:hover{
+    transform: scale(1.25);
+    color: var(--blue-color);
+}

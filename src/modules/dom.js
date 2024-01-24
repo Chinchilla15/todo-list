@@ -1,7 +1,7 @@
 import { format, isToday,} from 'date-fns';
 import { Create, Edit, Delete, standAloneTasks } from "./logic";
 import { projectList } from './projects';
-import { saveToLocalStorage, loadFromLocalStorage } from './storage';
+import { saveToLocalStorage } from './storage';
 
 const create = Create();
 const edit = Edit();
@@ -86,7 +86,7 @@ export default function Dom(){
         projectForm.style.display = "none";
         submitButton.setAttribute('form','add-task-form');
         dialogTitle.innerHTML = 'Add new...' ;
-        dialogButtonsBox.style.display = 'flex'    ;
+        dialogButtonsBox.style.display = 'flex';
     };
 
     function closeForm(e){
@@ -178,7 +178,7 @@ export default function Dom(){
         ${newProject.name}`
 
         projectsContainer.appendChild(projectElement);
-        projectsContainer.innerHTML = ''
+        projectsContainer.innerHTML = '';
         showProjectsList();
     };
 
@@ -211,11 +211,11 @@ export default function Dom(){
         tabTitle.innerHTML = project.name;
         tabTitle.appendChild(deleteProjectButton);
         showButton.style.display = "block";
-        dialogTitle.innerHTML = 'Add new...'
+        dialogTitle.innerHTML = 'Add new...';
         dialogProjectButton.style.display = 'block';
         dialogProjectButton.style.display = "none";
-        dialogTaskButton.classList.remove('dialog-button')
-        taskContainer.innerHTML = ''
+        dialogTaskButton.classList.remove('dialog-button');
+        taskContainer.innerHTML = '';
         
         setSelectedProject(project);
 
@@ -234,7 +234,7 @@ export default function Dom(){
         e.preventDefault();
 
         const titleInput = document.getElementById("title");
-        const title = capitalizeFirstLetter(titleInput.value)
+        const title = capitalizeFirstLetter(titleInput.value);
         const priority = document.getElementById("priority").value;
         const dueDate = document.getElementById("date").value;
         const project = undefined;    
@@ -286,7 +286,7 @@ export default function Dom(){
         };
 
         taskElement.setAttribute('data-priority', task.priority);
-        const formattedDate = format(new Date(task.dueDate), 'MM/dd/yyyy')
+        const formattedDate = format(new Date(task.dueDate), 'MM/dd/yyyy');
         taskElement.innerHTML = `
            ${checkBox}
             <p class="task-name">${task.title}</p>
@@ -357,7 +357,7 @@ export default function Dom(){
     if(selectedProject){
         remove.deleteProject(selectedProject);
     };
-   saveToLocalStorage()
+   saveToLocalStorage();
   };
 
     deleteProjectButton.addEventListener('click',()=>{
@@ -432,7 +432,7 @@ export default function Dom(){
             if (icon) {
                 icon.classList.toggle('fa-square-check');
                 icon.classList.toggle('fa-square');
-            }
+            };
         
             // Update the completion state in the task object
             const taskName = taskElement.querySelector('.task-name').textContent;
@@ -446,5 +446,5 @@ export default function Dom(){
         };
     });
 
-   return {showTasks, showProjectsList,renderHomeTab, renderTodayTab, renderImportantTab};
+   return {showTasks, showProjectsList,};
 };
